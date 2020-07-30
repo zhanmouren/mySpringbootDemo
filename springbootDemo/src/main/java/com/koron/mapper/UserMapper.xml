@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koron.mapper.UserMapper">
+    <select id="getUser" resultType="com.koron.bean.securityBean.SysUser" >
+		select * from sys_user
+	</select>
+	
+	<select id="getLoginUser" parameterType="com.koron.bean.securityBean.SysUser" resultType="com.koron.bean.securityBean.SysUser" >
+		select * from sys_user
+		where name=#{name}
+	</select>
+	
+	<select id="findByAdminName" parameterType="com.koron.bean.securityBean.SysUser" resultType="com.koron.bean.securityBean.Permission" >
+	    select Sys_permission.name as name,Sys_permission.descritpion as descritpion
+	    from sys_user
+	    left join sys_role_user on sys_role_user.Sys_User_id=sys_user.id
+	    left join Sys_Role on sys_role_user.Sys_Role_id=Sys_Role.id
+	    LEFT JOIN Sys_permission_role  on Sys_permission_role.role_id=Sys_Role.id
+	    left join Sys_permission on Sys_permission.id=Sys_permission_role.permission_id
+	    where sys_user.name =#{name}
+	</select>
+	
+	 <select id="getAllUser" resultType="com.koron.bean.securityBean.SysUser" >
+		select * from sm_user
+	</select>
+	
+	<select id="getProcedurekill" statementType="CALLABLE" parameterType="java.util.HashMap"  useCache="false" resultType="java.util.HashMap">
+	 <![CDATA[ 
+	   {
+	    call kill1(
+	    #{proid,mode=IN,jdbcType=INTEGER},
+	    #{mobile,mode=IN,jdbcType=VARCHAR},	    
+	    #{downum,mode=IN,jdbcType=INTEGER},
+        #{r_result,mode=OUT,jdbcType=VARCHAR},
+        #{str_result,mode=OUT,jdbcType=VARCHAR}
+       )}
+       ]]> 
+	</select>
+	
+	
+	
+     <resultMap type="java.util.HashMap" id="resultMap">
+       <result column="r_result" property="r_result" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+    </resultMap>
+	
+</mapper>
