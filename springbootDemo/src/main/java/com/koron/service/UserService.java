@@ -9,7 +9,7 @@ import com.koron.bean.securityBean.SysUser;
 import com.koron.bean.securityBean.sysUserVO;
 
 public interface UserService {
-	public List<SysUser> getUser();
+ 	public List<SysUser> getUser();
 	
 	public List<SysUser> getLoginUser(SysUser userBean);
 	
